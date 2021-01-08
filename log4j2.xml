@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="warn" monitorInterval="30">
+	<Properties>
+		<Property name="baseDir">__BASEDIR__</Property>
+	</Properties>
+	<Appenders>
+		<RollingRandomAccessFile name="FileLogging"
+			fileName="${baseDir}/hagent.log" filePattern="${baseDir}/hagent-%d{MMddyyyy}.%i.log.gz">
+			<PatternLayout>
+				<Pattern>%d{DEFAULT} - %t - %-5level - %notEmpty{%marker - }%c{10} - %msg%n</Pattern>
+			</PatternLayout>
+			<Policies>
+				<TimeBasedTriggeringPolicy />
+				<SizeBasedTriggeringPolicy size="10 MB" />
+			</Policies>
+			<DefaultRolloverStrategy max="100">
+				<Delete basePath="${baseDir}" maxDepth="2">
+					<IfFileName glob="hagent-*.log.gz">
+						<IfAny>
+							<IfLastModified age="30d" />
+							<IfAccumulatedFileSize exceeds="100 MB" />
+						</IfAny>
+					</IfFileName>
+				</Delete>
+			</DefaultRolloverStrategy>
+		</RollingRandomAccessFile>
+		<Console name="Console" target="SYSTEM_OUT">
+			<PatternLayout>
+				<Pattern>%d{DEFAULT} - %t - %-5level - %notEmpty{%marker - }%c{10} - %msg%n</Pattern>
+			</PatternLayout>
+		</Console>
+	</Appenders>
+	<Loggers>
+		<Root level="off">
+			<AppenderRef ref="FileLogging" />
+		</Root>
+		<Logger name="jhefame.core" level="warn" additivity="false">
+			<AppenderRef ref="FileLogging" />
+		</Logger>
+		<Logger name="jhefame.http" level="warn" additivity="false">
+			<AppenderRef ref="FileLogging" />
+		</Logger>
+		<Logger name="jhefame.oracle" level="warn" additivity="false">
+			<AppenderRef ref="FileLogging" />
+		</Logger>
+		<Logger name="jhefame.prtg" level="warn" additivity="false">
+			<AppenderRef ref="FileLogging" />
+		</Logger>
+
+
+		<Logger name="jhefame.hagent.run" level="info" additivity="false">
+			<AppenderRef ref="FileLogging" />
+		</Logger>
+		<Logger name="jhefame.hagent.configuration" level="info" additivity="false">
+			<AppenderRef ref="FileLogging" />
+		</Logger>
+		<Logger name="jhefame.hagent.controller" level="info" additivity="false">
+			<AppenderRef ref="FileLogging" />
+		</Logger>
+		<Logger name="jhefame.hagent.bg" level="info" additivity="false">
+			<AppenderRef ref="FileLogging" />
+		</Logger>
+
+		<Logger name="jhefame.hagent.util" level="debug" additivity="false">
+			<AppenderRef ref="FileLogging" />
+			<Filters>
+				<MarkerFilter marker="MAILER" onMatch="DENY" onMismatch="NEUTRAL" />
+				<MarkerFilter marker="AGENT_INFO" onMatch="DENY" onMismatch="NEUTRAL" />
+			</Filters>
+		</Logger>
+
+		<Logger name="jhefame.hagent.command" level="debug" additivity="false">
+			<AppenderRef ref="FileLogging" />
+			<Filters>
+				<MarkerFilter marker="OSLEVEL_CMD" onMatch="DENY" onMismatch="NEUTRAL" />
+				<MarkerFilter marker="CPU_CMD" onMatch="DENY" onMismatch="NEUTRAL" />
+				<MarkerFilter marker="MEM_CMD" onMatch="DENY" onMismatch="NEUTRAL" />
+				<MarkerFilter marker="FS_CMD" onMatch="DENY" onMismatch="NEUTRAL" />
+				<MarkerFilter marker="IF_CMD" onMatch="DENY" onMismatch="NEUTRAL" />
+				<MarkerFilter marker="PING_CMD" onMatch="DENY" onMismatch="NEUTRAL" />
+				<MarkerFilter marker="DISKPATHS_CMD" onMatch="DENY" onMismatch="NEUTRAL" />
+				<MarkerFilter marker="ERRPT_CMD" onMatch="DENY" onMismatch="NEUTRAL" />
+				<MarkerFilter marker="OGRID_ASMDG_CMD" onMatch="DENY" onMismatch="NEUTRAL" />
+				<MarkerFilter marker="OGRID_RESOURCE_CMD" onMatch="DENY" onMismatch="NEUTRAL" />
+				<MarkerFilter marker="ARCHIVE_CMD" onMatch="DENY" onMismatch="NEUTRAL" />
+				<MarkerFilter marker="PROCESS_LIST_CMD" onMatch="DENY" onMismatch="NEUTRAL" />
+				<MarkerFilter marker="SAP_PROCESS_CMD" onMatch="DENY" onMismatch="NEUTRAL" />
+				<MarkerFilter marker="OSUPDATES_CMD" onMatch="DENY" onMismatch="NEUTRAL" />
+				<MarkerFilter marker="RESTART_CMD" onMatch="DENY" onMismatch="NEUTRAL" />
+				<MarkerFilter marker="STANDBY_GAP_CMD" onMatch="DENY" onMismatch="NEUTRAL" />
+				<MarkerFilter marker="APACHE_SERVERSTATUS_CMD" onMatch="DENY" onMismatch="NEUTRAL" />
+			</Filters>
+		</Logger>
+	</Loggers>
+</Configuration>
+
+
+
+
+

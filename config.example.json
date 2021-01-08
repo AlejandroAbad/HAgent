@@ -1,0 +1,108 @@
+{
+	"monitorized_elements": [
+		{
+			"type": "errpt",
+			"check_interval": 60000,
+			"type_filter": "INFO,PEND,PERF,PERM,TEMP,UNKN"
+		},
+		{
+			"type": "oracle_alertlog",
+			"db_name": "P01",
+			"alert_log": "/oracle/P01/saptrace/diag/rdbms/p01/P011/trace/alert_P011.log",
+			"include_regex": "ORA\\-[0-9]+|WARNING|ERROR|Deadlock",
+			"exclude_regex": "ORA-19815"
+		},
+		{
+			"type": "alertlog",
+			"name": "EBASAP",
+			"alert_log": "/usr/local/ebiasap/log/ebiAdapterSAPSession.log",
+			"include_regex": "(Error\\sde\\sintegridad\\sen\\sel\\sadaptador)"
+		},
+		{
+			"type": "asm_diskgroups",
+			"asm_user": "HAGENT",
+			"asm_password": "K3rberos.",
+			"asm_tns": "(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=rac1p01-adm.hefame.es)(PORT=1529))(CONNECT_DATA=(SERVICE_NAME=+ASM)))"
+		},
+		{
+			"type": "oracle_grid_resources",
+			"conditions": [
+				{"resource": "ora.p01.p01_d12.svc", "location": "rac1p01", "on_mismatch": "warn"},
+				{"resource": "ora.rac1p01-adm.vip", "location": "rac1p01"},
+				{"resource": "ora.rac2p01-adm.vip", "location": "rac2p01"},
+				{"resource": "ora.rac1p01.vip", "location": "rac1p01"},
+				{"resource": "ora.rac2p01.vip", "location": "rac2p01"},
+				{"resource": "sap.P01.abapvip", "location": "RES sap.P01.ASCS00.abapenq"},
+				{"resource": "sap.P01.abapvip2", "location": "RES sap.P01.ASCS00.abapenq"},
+				{"resource": "sap.P01.ERS01.abaprep", "location": "!RES sap.P01.ASCS00.abapenq"}
+			]
+		},
+		{
+			"type":"br_archive",
+			"db_name": "T01",
+			"user": "//",
+			"archive_dest": "+T01_ARCH",
+			"archive_percent": 90
+		},
+		{
+			"type":"delete_archive",
+			"db_name": "T01",
+			"user": "oracle",
+			"archive_dest": "+T01_ARCH",
+			"archive_percent": 25,
+			"alert_channel": "default"
+		},
+		{
+			"type": "process_list",
+			"process_patterns": ["httpd-prefork", "squid", "/usr/lib/postfix/master"]
+		},
+		{
+			"type": "standby_gap",
+			"stb_user": "HAGENT AS SYSDBA",
+			"stb_password": "whatever",
+			"stb_tns": "(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=stb)(PORT=1521)))(CONNECT_DATA=(SERVICE_NAME=STB)(SID=P01)))",
+			"primary_user": "HAGENT",
+			"primary_password": "whatever",
+			"primary_tns": "(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL = TCP)(HOST = racp01-scan)(PORT = 1521)))(CONNECT_DATA=(SERVICE_NAME=P01)))"
+		},
+		{
+			"type": "proyman_impresora",
+			"file": "/tmp/impresora"
+		},
+		{
+			"type": "proyman_isap3060",
+			"file": "/proyman/isap/log/isap3060.log",
+			"buffer_size": 1000,
+			"werks": ["RG06", "RG10"]
+		}
+	],
+	"prtg": {
+		"processor": {
+			"sample_time": 60,
+			"error_percent": 75,
+			"warn_percent": 70
+		},
+		"memory": {
+			"physical_error_percent": 95,
+			"swap_error_percent": 50,
+			"swap_warn_percent": 25,
+			"physical_warn_percent": 90
+		},
+		"filesystems": [
+			{"filesystem":"/usr/sap/DAA", "error_percent":90, "warn_percent":80, "check_mounted": false},
+			{"filesystem": "/interfaces/ARCHIVING", "error_free": "300G", "warn_free": "500G", "cluster": true},
+			{"filesystem":"+P01_ARCH", "error_percent":70, "warn_percent":60, "cluster": true},
+			{"filesystem":"/usr/sap/trans", "cluster": true, "check_inodes": true, "inodes_error_percent": "80"}
+		],
+		"interfaces": [
+			{"interface_name": "en0", "check_online": true},
+			{"interface_name": "en1", "check_online": true}
+		]
+	},
+	"agent": {
+		"port": 55555,
+		"domain": "hefame.es",
+		"registration_url": "https:\/\/bitacora.hefame.es\/agent\/register",
+		"configuration_reload": 3600
+	}
+}

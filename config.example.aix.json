@@ -1,0 +1,122 @@
+{
+	"monitorized_elements": [
+		{
+			"type": "errpt",
+			"check_interval": 60000,
+			"type_filter": "INFO,PEND,PERF,PERM,TEMP,UNKN",
+		},
+		{
+			"type": "oracle_alertlog",
+			"db_name": "T01",
+			"alert_log": "/oracle/T01/saptrace/diag/rdbms/t01/T011/trace/alert_T011.log",
+			"include_regex": "ORA\\-[0-9]+|WARNING|ERROR",
+		},
+		{
+			"type": "oracle_alertlog",
+			"db_name": "ASM",
+			"alert_log": "/oracle/GRID/11204/log/diag/asm/+asm/+ASM1/trace/alert_+ASM1.log",
+			"include_regex": "ORA\\-[0-9]+|WARNING|ERROR",
+		},
+		{
+			"type": "asm_diskgroups",
+			"asm_user": "HAGENT",
+			"asm_password": "PASSWORD",
+			"asm_tns": "(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=rac1t01-adm.hefame.es)(PORT=1529))(CONNECT_DATA=(SERVICE_NAME=+ASM)))"
+		},
+		{
+			"type": "oracle_grid_resources",
+			"conditions": [
+				{"resource": "sap.PWI1.vip", "location": "iwd1", "on_mismatch": "warn"},
+				{"resource": "sap.PWI2.vip", "location": "iwd2", "on_mismatch": "warn"},
+				{"resource": "ora.t01.t01_dvebmgs00.svc", "location": "rac1t01", "on_mismatch": "warn"},
+				{"resource": "ora.t01.t01_d00_sap2t01.svc", "location": "rac1t01", "on_mismatch": "warn"},
+				{"resource": "ora.t01.t01_d00_sap3t01.svc", "location": "rac2t01", "on_mismatch": "warn"},
+				{"resource": "ora.t01.t01_d00_sap4t01.svc", "location": "rac2t01", "on_mismatch": "warn"},
+				{"resource": "ora.rac1t01-adm.vip", "location": "rac1t01"},
+				{"resource": "ora.rac1t01.vip", "location": "rac1t01"},
+				{"resource": "ora.rac2t01-adm.vip", "location": "rac2t01"},
+				{"resource": "ora.rac2t01.vip", "location": "rac2t01"},
+				{"resource": "sap.T01.abapvip", "location": "RES sap.T01.ASCS00.abapenq"},
+				{"resource": "sap.T01.abapvip2", "location": "RES sap.T01.ASCS00.abapenq"},
+				{"resource": "sap.T01.ERS01.abaprep", "location": "!RES sap.T01.ASCS00.abapenq"},
+			]
+		}
+	],
+	"prtg": {
+		"processor": {
+			"error_percent":95,
+			"warn_percent":90,
+			"sample_time":60
+		},
+		"memory": {
+			"physical_error_percent":95,
+			"physical_warn_percent":90
+			"swap_error_percent":50,
+			"swap_warn_percent":25,
+		},
+		"filesystems": [
+			{
+				"filesystem":"/",
+				"error_percent":90,
+				"warn_percent":80
+			},
+			{
+				"filesystem":"/home",
+				"error_percent":90,
+				"warn_percent":80
+			},
+			{
+				"filesystem":"/var",
+				"error_percent":90,
+				"warn_percent":80
+			},
+			{
+				"filesystem":"/usr",
+				"error_percent":90,
+				"warn_percent":80
+			},
+			{
+				"filesystem":"/opt",
+				"error_percent":90,
+				"warn_percent":80
+			},
+			{
+				"filesystem":"/tmp",
+				"error_percent":90,
+				"warn_percent":80
+			}
+		],
+		"interfaces": [
+			{
+				"interface_name":"en0",
+				"check_online":true
+			},
+			{
+				"interface_name":"en1",
+				"check_online":true
+			},
+			{
+				"interface_name":"en2",
+				"check_online":true	
+			}
+		],
+	},
+	"agent":{
+		"port":55555,
+		"domain":"hefame.es",
+		"registration_url":"https:\/\/bitacora.hefame.es\/agent\/register",
+		"configuration_reload":3600
+	},
+	"alert_channels": [
+		{
+			"name": "default",
+			"type": "mailer",
+			"to": ["cpd.sistemas.unix@hefame.es"]
+		},
+		{
+			"name": "success",
+			"type": "mailer",
+			"to": []
+		}
+	]
+}
