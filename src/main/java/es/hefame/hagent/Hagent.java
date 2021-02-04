@@ -37,7 +37,7 @@ import es.hefame.hagent.util.agent.AgentInfo;
 import es.hefame.hcore.http.HttpController;
 import es.hefame.hcore.http.server.HttpService;
 
-public class Hagent
+public class HAgent
 {
 	private static Logger L = LogManager.getLogger();
 
