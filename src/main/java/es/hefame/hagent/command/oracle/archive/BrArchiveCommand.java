@@ -38,7 +38,7 @@ public class BrArchiveCommand extends ArchiveCommand
 	{
 		try
 		{
-			String brcommand = "brarchive -u " + config.get_br_user() + " -c force -p " + config.get_sap_file() + " -sd";
+			String brcommand = "brarchive -u " + config.get_br_user() + " -c force -p " + config.get_sap_file() + " " + config.get_br_option();
 			OsCommandExecutor comm = new OsCommandExecutor(ARCHIVE_CMD_MARKER, "su", "-", config.get_user(), "-c", brcommand);
 			OsCommandResult result = comm.run();
 			L.debug(ARCHIVE_CMD_MARKER, "El resultado de la operacion es: [{}]", result.toString());

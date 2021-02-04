@@ -13,6 +13,7 @@ public class BrArchiveConfigData extends ArchivelogConfigData
 	private String			utl_file;
 	private String			sap_file;
 	private String			br_user;
+	private String			br_option;
 
 	public BrArchiveConfigData(JSONObject json_root) throws HException
 	{
@@ -49,6 +50,15 @@ public class BrArchiveConfigData extends ArchivelogConfigData
 		this.br_user = user;
 		this.user = this.db_name.toLowerCase() + "adm";
 
+		element_name = "br_option";
+		element_obj = json_root.get(element_name);
+		if (element_obj != null) {
+			br_option = element_obj.toString();
+		} else {
+			br_option = "-sd";
+			L.debug("No se haya el valor de '{}'. Se usa el valor por defecto [{}]", element_name, br_option);
+		}
+
 	}
 
 	public String get_utl_file()
@@ -64,6 +74,11 @@ public class BrArchiveConfigData extends ArchivelogConfigData
 	public String get_br_user()
 	{
 		return br_user;
+	}
+
+	public String get_br_option()
+	{
+		return br_option;
 	}
 
 	@SuppressWarnings("unchecked")

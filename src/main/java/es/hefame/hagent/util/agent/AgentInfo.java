@@ -26,10 +26,11 @@ public final class AgentInfo
 
 	public static final long	START_TIME	= System.currentTimeMillis();
 
-	private static String		VERSION		= "0.0";
-	private static String		BUILD		= "0";
-	private static String		BUILT_DATE	= "20000101010101";
+	private static String		VERSION		= "1.20.28";
+	private static String		BUILD		= "1";
+	private static String		BUILT_DATE	= "20210204123700";
 
+	/*
 	static
 	{
 		L.debug(MARKER, "Leyendo la version del agente");
@@ -92,6 +93,7 @@ public final class AgentInfo
 
 		return line.substring(separator_position + 1, line.length()).trim();
 	}
+	*/
 
 	private static String hostname;
 
