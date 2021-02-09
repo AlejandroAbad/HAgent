@@ -1,25 +1,33 @@
 # Instalación
 
 ## Despliegue
-Para desplegar el HAgente, usaremos el instalador del mismo que podemos encontrar en `https://hagent.hefame.es/install.sh`. Es un script `ksh` que podremos ejecutar en sistemas *NIX y cuyo único requisito es que el host donde se instale tenga instalada la herramienta `curl`.
+Para desplegar el HAgente, usaremos el instalador del mismo que podemos encontrar en la carpeta de scripts `scripts/install.$OS.sh`. 
+Es un script `ksh` que podremos ejecutar en sistemas *NIX.
 
 ```bash
-wget -nv --no-check-certificate https://hagent.hefame.es/install.sh -O /tmp/install.sh
-chmod u+x /tmp/install.sh
-/tmp/install.sh
-rm /tmp/install.sh
+OS=$(uname|tr '[:upper:]' '[:lower:]')
+wget -O /tmp/hagent.install.sh \
+	https://raw.githubusercontent.com/AlejandroAbad/hagent/main/scripts/install.$OS.sh
+	
+chmod u+x /tmp/hagent.install.sh
+/tmp/hagent.install.sh
+
+# Una vex instalado
+rm /tmp/hagent.install.sh
+
 ```
 
-Al ejecutar el instalador, nos solicitará las rutas de JAVA, de instalación del HAgente y el directorio donde dejará los logs. Para no mezclar, se recomienda que las ruta de instalación sea `/usr/local/hagent` y el directorio de logs sea `/var/log/hagent`.
+Al ejecutar el instalador, se realizará la descarga del código fuente y se compilará en la carpeta `/usr/local/hagent`.
+Para almacenar los logs, se utiliza el directorio `/var/log/hagent`.
 
 Una vez finalizada la instalación, el HAgente habrá quedado configurado para arrancarse en cada inicio del host.
 
 ## Ficheros
 En el directorio de instalación del HAgente, encontraremos los siguientes ficheros:
-- `apihagent.jar`. Es el binario java que contiene el código del HAgente.
-- `apihagent.sh`. Es el ejecutable que utilizaremos para arrancar, parar o conocer el estado del HAgente.
-- `config.json`. Es el fichero de configuración del HAgente. A lo largo de este documento iremos detallando las diferentes secciones del mismo.
+- `hagent.jar`. Es el binario java que contiene el código del HAgente.
+- `hagent.sh`. Es el ejecutable que utilizaremos para arrancar, parar o conocer el estado del HAgente.
 - `log4j2.xml`. Es el fichero de configuración de Log4j2. Log4j2 es una librería para escribir logs y trazas en java. Con este fichero podemos determinar parámetros como el nivel de traza, la ubicación, la rotación del log, etc...
+- `config.json`. Es el fichero de configuración del HAgente. A lo largo de este documento iremos detallando las diferentes secciones del mismo.
 
 ## Configuración
 La configuración del HAgente se realiza mediante el fichero `config.json`, como hemos explicado. El HAgente lee este fichero al arrancar y lo recarga automáticamente cada cierto intervalo de tiempo.
@@ -1142,13 +1150,15 @@ Nombre | Tipo | Defecto | Descripción
 **user** | `string` |  | **OBLIGATORIO**. Es el nombre del usuario de la base de datos que usaremos para conectar con las BrTools. Normalmente estableceremos este valor a `//`, aunque otros ejemplos son `SYS/pass` o `ADMIN/pwd`.
 **utl_file** | `string` | `null` | Este parámetro indica la ruta al fichero UTL que utilizaremos para llamar a las BrTools. Si no se especifica, se utiliza `$ORACLE_HOME/dbs/init<SID>.utl`.
 **sap_file** | `string` | `null` | Este parámetro indica la ruta al fichero .SAP que utilizaremos para llamar a las BrTools. Si no se especifica, se utiliza `init<SID>.sap`.
+**br_option** | `string` | `-sd` | Permite incluir parámetros adicionales para la llamada a BR Archive. Ver la ayuda de BR*Archive para ver las opciones disponible.
 ```json
 {
 	"type":"br_archive",
 	"db_name": "P01",
 	"user": "//",
 	"archive_dest": "+P01_ARCH",
-	"archive_percent": 90
+	"archive_percent": 90,
+    "br_option": "-ds"
 }
 ```
 
