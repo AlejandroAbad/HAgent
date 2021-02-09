@@ -136,6 +136,8 @@ fupdate() {
 	git stash clear >/dev/null 2>/dev/null
 	git pull
 	mvn package
+
+        chmod u+x $BASE_DIR/src/scripts/*.sh
 }
 
 

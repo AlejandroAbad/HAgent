@@ -42,14 +42,14 @@ else
 fi
 
 
-chmod u+x /usr/local/hagent/src/scripts/hagent.sh
-ln -fs /usr/local/hagent/src/scripts/hagent.sh /usr/local/hagent/hagent.sh
-ln -fs /usr/local/hagent/src/target/hagent-jar-with-dependencies.jar /usr/local/hagent/hagent.jar
-ln -fs /usr/local/hagent/hagent.sh /usr/bin/hagent
+chmod u+x $BASE/src/scripts/*.sh
+ln -fs $BASE/src/scripts/hagent.sh $BASE/hagent.sh
+ln -fs $BASE/src/target/hagent-jar-with-dependencies.jar $BASE/hagent.jar
+ln -fs $BASE/hagent.sh /usr/bin/hagent
 
-cp  /usr/local/hagent/src/log4j2.xml /usr/local/hagent/log4j2.xml
+cp  $BASE/src/log4j2.xml $BASE/log4j2.xml
 
-rm /usr/local/hagent/apihagent.sh 2> /dev/null
-rm /usr/local/hagent/apihagent.jar 2> /dev/null
+rm $BASE/apihagent.sh 2> /dev/null
+rm $BASE/apihagent.jar 2> /dev/null
 
 cd $SPWD
