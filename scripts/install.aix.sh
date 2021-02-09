@@ -1,8 +1,13 @@
 #!/bin/ksh
 
+# Para evitar error en la ejecución de GIT
+LIBPATH=
+
 SPWD=$(pwd)
 BASE=/usr/local/hagent
+
 cd $BASE
+
 
 # Instalación de GIT
 if [ ! -e /usr/bin/git ]
