@@ -130,6 +130,14 @@ get_pid() {
 }
 
 
+fupdate() {
+        cd $BASE_DIR/src
+        git stash >/dev/null 2>/dev/null
+	git stash clear >/dev/null 2>/dev/null
+	git pull
+	mvn package
+}
+
 
 case "$1" in
         start)
@@ -149,8 +157,12 @@ case "$1" in
                 status
                 RETVAL=$?
                 ;;
+        update)
+                fupdate
+                RETVAL=$?
+                ;;
         *)
-                echo $"Usage: $0 {start|stop|restart|status}"
+                echo $"Usage: $0 {start|stop|restart|status|update}"
                 RETVAL=2
 esac
 

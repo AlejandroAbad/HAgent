@@ -1,7 +1,27 @@
 #!/bin/ksh
 
+SPWD=$(pwd)
 BASE=/usr/local/hagent
 cd $BASE
+
+# Instalación de GIT
+if [ ! -e /usr/bin/git ]
+then
+	/usr/lpp/bos.sysmgt/nim/methods/c_sm_nim cust  -l 'GIT' -o 'aixtools.git' -f '' -f '' -f 'Y' -f '' -f '' -f 'g' -f 'X' -f '' -f ''
+	ln -fs /opt/bin/git /usr/bin/git
+fi
+
+# Instalación de MAVEN
+if [ ! -e /usr/bin/mvn ]
+then
+	mkdir /usr/local/maven
+	scp -r nim:/export/nim/lpp_source/PRODUCTS/apache-maven-3.6.3 /usr/local/maven
+	ln -fs /usr/local/maven/apache-maven-3.6.3 /usr/local/maven/current
+	ln -fs /usr/local/maven/current/bin/mvn /usr/bin/mvn
+fi
+
+
+
 
 if [ -d $BASE/src ] 
 then
@@ -26,3 +46,5 @@ cp  /usr/local/hagent/src/log4j2.xml /usr/local/hagent/log4j2.xml
 
 rm /usr/local/hagent/apihagent.sh 2> /dev/null
 rm /usr/local/hagent/apihagent.jar 2> /dev/null
+
+cd $SPWD
