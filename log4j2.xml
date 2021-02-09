@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration status="warn" monitorInterval="30">
 	<Properties>
-		<Property name="baseDir">__BASEDIR__</Property>
+		<Property name="baseDir">/var/log/hagent</Property>
 	</Properties>
 	<Appenders>
 		<RollingRandomAccessFile name="FileLogging"
-			fileName="${baseDir}/hagent.log" filePattern="${baseDir}/hagent-%d{MMddyyyy}.%i.log.gz">
+			fileName="${baseDir}/hagent.log" filePattern="${baseDir}/hagent-%d{MMddyyyy}.%i.log.gz"
+			immediateFlush="true"
+			>
 			<PatternLayout>
 				<Pattern>%d{DEFAULT} - %t - %-5level - %notEmpty{%marker - }%c{10} - %msg%n</Pattern>
 			</PatternLayout>
@@ -31,7 +33,7 @@
 		</Console>
 	</Appenders>
 	<Loggers>
-		<Root level="off">
+		<Root level="info">
 			<AppenderRef ref="FileLogging" />
 		</Root>
 		<Logger name="jhefame.core" level="warn" additivity="false">

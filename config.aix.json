@@ -1,0 +1,86 @@
+{
+	"monitorized_elements": [
+		{
+			"type": "errpt",
+			"check_interval": 60000,
+			"type_filter": "INFO,PEND,PERF,PERM,TEMP,UNKN"
+		}
+	],
+	"prtg": {
+		"processor": {
+			"error_percent":95,
+			"warn_percent":90,
+			"sample_time":60
+		},
+		"memory": {
+			"physical_error_percent":95,
+			"physical_warn_percent":90,
+			"swap_error_percent":50,
+			"swap_warn_percent":25
+		},
+		"filesystems": [
+			{
+				"filesystem":"/",
+				"error_percent":90,
+				"warn_percent":80
+			},
+			{
+				"filesystem":"/home",
+				"error_percent":90,
+				"warn_percent":80
+			},
+			{
+				"filesystem":"/var",
+				"error_percent":90,
+				"warn_percent":80
+			},
+			{
+				"filesystem":"/usr",
+				"error_percent":90,
+				"warn_percent":80
+			},
+			{
+				"filesystem":"/opt",
+				"error_percent":90,
+				"warn_percent":80
+			},
+			{
+				"filesystem":"/tmp",
+				"error_percent":90,
+				"warn_percent":80
+			}
+		],
+		"interfaces": [
+			{
+				"interface_name":"en0",
+				"check_online":true
+			},
+			{
+				"interface_name":"en1",
+				"check_online":true
+			},
+			{
+				"interface_name":"en2",
+				"check_online":true	
+			}
+		]
+	},
+	"agent":{
+		"port":55555,
+		"domain":"hefame.es",
+		"registration_url":"https:\/\/bitacora.hefame.es\/agent\/register",
+		"configuration_reload":3600
+	},
+	"alert_channels": [
+		{
+			"name": "default",
+			"type": "mailer",
+			"to": ["cpd.sistemas.unix@hefame.es"]
+		},
+		{
+			"name": "success",
+			"type": "mailer",
+			"to": []
+		}
+	]
+}

@@ -37,20 +37,17 @@ import es.hefame.hagent.util.agent.AgentInfo;
 import es.hefame.hcore.http.HttpController;
 import es.hefame.hcore.http.server.HttpService;
 
-public class HAgent
-{
+public class HAgent {
 	private static Logger L = LogManager.getLogger();
 
-	public static void main(String... args)
-	{
+	public static void main(String... args) {
 
 		String version = AgentInfo.get_version();
 		String build = AgentInfo.get_build();
 		String compiledDate = AgentInfo.get_built_date();
-		L.info("Starting HAgent API " + version + '.' + build + " (" + compiledDate + ")");
+		L.info("Starting HAgent API {}.{} ({})", version, build, compiledDate);
 
-		try
-		{
+		try {
 
 			CONF.load();
 			BgJobs.launch();
@@ -97,9 +94,7 @@ public class HAgent
 			Runtime.getRuntime().addShutdownHook(new ShutdownHook(server));
 
 			server.start();
-		}
-		catch (Exception e)
-		{
+		} catch (Exception e) {
 			L.catching(e);
 			L.fatal("Aborting execution with exit code {}", 2);
 			System.exit(2);

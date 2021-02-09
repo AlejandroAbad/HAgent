@@ -1,10 +1,7 @@
 package es.hefame.hagent.util.agent;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.InetAddress;
-import java.net.URL;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -27,8 +24,8 @@ public final class AgentInfo
 	public static final long	START_TIME	= System.currentTimeMillis();
 
 	private static String		VERSION		= "1.20.28";
-	private static String		BUILD		= "1";
-	private static String		BUILT_DATE	= "20210204123700";
+	private static String		BUILD		= "2";
+	private static String		BUILT_DATE	= "20210209111111";
 
 	/*
 	static
@@ -130,14 +127,14 @@ public final class AgentInfo
 			{
 				String hostname = new String(result.get_stdout()).trim().toLowerCase();
 				hostname = AgentInfo.add_domain(hostname);
-				L.debug(MARKER, "El nombre del host es [ " + hostname + " ]");
+				L.debug(MARKER, "El nombre del host es [{}]", hostname);
 				AgentInfo.hostname = hostname;
 			}
 			else
 			{
 				String hostname = InetAddress.getLocalHost().getHostName();
 				hostname = AgentInfo.add_domain(hostname);
-				L.debug(MARKER, "El comando retorno en error. Devolvemos el hostname de la IP local [" + hostname + "]");
+				L.debug(MARKER, "El comando retorno en error. Devolvemos el hostname de la IP local [{}]", hostname);
 				AgentInfo.hostname = hostname;
 			}
 
@@ -171,7 +168,7 @@ public final class AgentInfo
 		HttpClient http_client = new HttpClient(registration_url);
 
 		L.info("Registrando el agente contra la url [{}]", CONF.agent.registration_url);
-		L.debug("{}", new AgentInfoMessage().jsonEncode().toJSONString());
+		L.debug("{}", () -> new AgentInfoMessage().jsonEncode().toJSONString());
 
 		HttpClientResponse conn = http_client.post(new AgentInfoMessage().jsonEncode().toJSONString().getBytes());
 
