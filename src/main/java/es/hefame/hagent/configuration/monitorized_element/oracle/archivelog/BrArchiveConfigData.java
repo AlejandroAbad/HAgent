@@ -10,7 +10,6 @@ public class BrArchiveConfigData extends ArchivelogConfigData
 {
 	private static Logger	L	= LogManager.getLogger();
 
-	private String			utl_file;
 	private String			sap_file;
 	private String			br_user;
 	private String			br_option;
@@ -23,17 +22,6 @@ public class BrArchiveConfigData extends ArchivelogConfigData
 		String element_name;
 		Object element_obj;
 
-		element_name = "utl_file";
-		element_obj = json_root.get(element_name);
-		if (element_obj != null)
-		{
-			utl_file = element_obj.toString();
-		}
-		else
-		{
-			utl_file = "$ORACLE_HOME/dbs/init" + this.db_name.toUpperCase() + ".utl";
-			L.debug("No se haya el valor de '{}'. Se usa el valor por defecto [{}]", element_name, utl_file);
-		}
 
 		element_name = "sap_file";
 		element_obj = json_root.get(element_name);
@@ -67,11 +55,6 @@ public class BrArchiveConfigData extends ArchivelogConfigData
 
 	}
 
-	public String get_utl_file()
-	{
-		return utl_file;
-	}
-
 	public String get_sap_file()
 	{
 		return sap_file;
@@ -87,13 +70,14 @@ public class BrArchiveConfigData extends ArchivelogConfigData
 		return br_option;
 	}
 
+	@Override
 	@SuppressWarnings("unchecked")
 	public JSONObject jsonEncode()
 	{
 		JSONObject root = super.jsonEncode();
-		root.put("utl_file", this.utl_file);
 		root.put("sap_file", this.sap_file);
 		root.put("br_user", this.br_user);
+		root.put("br_option", this.br_option);
 		return root;
 	}
 
