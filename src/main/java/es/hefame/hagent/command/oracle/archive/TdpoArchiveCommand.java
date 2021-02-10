@@ -35,10 +35,10 @@ public class TdpoArchiveCommand extends ArchiveCommand {
 		StringBuilder std_input = new StringBuilder();
 
 		std_input.append("run {");
-		std_input.append("	allocate channel sbt_1 type sbt_tape parms '").append(config.get_extra_env())
+		std_input.append(" allocate channel sbt_1 type sbt_tape parms '").append(config.get_extra_env())
 				.append("ENV=(TDPO_OPTFILE=").append(config.get_tdpo_optfile()).append(")';");
-		std_input.append("	backup archivelog all;");
-		std_input.append("	release channel sbt_1;");
+		std_input.append(" backup archivelog all;");
+		std_input.append(" release channel sbt_1;");
 		std_input.append("}");
 		std_input.append("crosscheck archivelog all;");
 		std_input.append("delete noprompt archivelog all backed up 1 times to sbt_tape;");
