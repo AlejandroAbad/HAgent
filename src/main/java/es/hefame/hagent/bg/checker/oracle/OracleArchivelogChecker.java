@@ -25,7 +25,7 @@ public class OracleArchivelogChecker extends Checker
 {
 	private static Logger		L		= LogManager.getLogger();
 
-	private ArchivelogConfigData config	= null;
+	
 
 	public OracleArchivelogChecker(String dbName)
 	{
@@ -37,8 +37,8 @@ public class OracleArchivelogChecker extends Checker
 	@Override
 	public void operate() throws HException
 	{
-		this.config = (ArchivelogConfigData) CONF.checker.getMonitorizedElementByName(this.getCheckerName());
-		if (this.config == null) { throw new HException("La configuracion del elemento [" + this.getCheckerName() + "] no se encuentra disponible"); }
+		ArchivelogConfigData config = (ArchivelogConfigData) CONF.checker.getMonitorizedElementByName(this.getCheckerName());
+		if (config == null) { throw new HException("La configuracion del elemento [" + this.getCheckerName() + "] no se encuentra disponible"); }
 
 		FilesystemResult archiveDestResult = getFsSensor(config.getArchiveDest());
 

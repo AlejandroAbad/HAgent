@@ -72,12 +72,12 @@ public class DeleteArchiveCommand extends ArchiveCommand {
 					untilTime = " until time \"" + untils[i] + "\"";
 				}
 
-				String std_input = "delete noprompt archivelog " + untilTime + ";";				
-				L.info("Se procede al borrado con el siguiente comando RMAN [{}]", std_input);
+				String stdInput = "delete noprompt archivelog " + untilTime + ";";				
+				L.info("Se procede al borrado con el siguiente comando RMAN [{}]", stdInput);
 
 				try {
 					OsCommandExecutor comm = new OsCommandExecutor(ARCHIVE_CMD_MARKER, "su", "-", config.getUser(), "-c", "rman target /");
-					result = comm.run(std_input.getBytes());
+					result = comm.run(stdInput.getBytes());
 					L.debug(ARCHIVE_CMD_MARKER, "El resultado de la operacion es: [{}]", result.toString());
 				} catch (IOException e) {
 					L.error(ARCHIVE_CMD_MARKER, "Ocurrio una excepcion al ejecutar el comando");

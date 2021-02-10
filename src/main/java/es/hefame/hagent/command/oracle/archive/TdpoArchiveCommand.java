@@ -23,9 +23,7 @@ public class TdpoArchiveCommand extends ArchiveCommand {
 		if (configData instanceof TdpoArchiveConfigData) {
 			this.config = (TdpoArchiveConfigData) configData;
 		} else {
-			L.error(ARCHIVE_CMD_MARKER,
-					"No se puede crear el comando [{}] porque la configuracion es incompatible [{}]",
-					this.getClass().getSimpleName(), configData.getClass().getSimpleName());
+			L.error(ARCHIVE_CMD_MARKER, "No se puede crear el comando [{}] porque la configuracion es incompatible [{}]", this.getClass().getSimpleName(), configData.getClass().getSimpleName());
 			throw new HException("Comando incompatible");
 		}
 	}
@@ -50,8 +48,7 @@ public class TdpoArchiveCommand extends ArchiveCommand {
 				rmanBinScript = "env ORACLE_HOME=" + oracleHome + " ORACLE_SID=" + config.getDbName() + " " + oracleHome + "/bin/rman target /";
 			}
 
-			OsCommandExecutor comm = new OsCommandExecutor(ARCHIVE_CMD_MARKER, "su", "-", config.getUser(), "-c",
-					rmanBinScript);
+			OsCommandExecutor comm = new OsCommandExecutor(ARCHIVE_CMD_MARKER, "su", "-", config.getUser(), "-c", rmanBinScript);
 			OsCommandResult result = comm.run(stdInput.toString().getBytes());
 			L.debug(ARCHIVE_CMD_MARKER, "El resultado de la operacion es: [{}]", () -> result.toString());
 			return result;
