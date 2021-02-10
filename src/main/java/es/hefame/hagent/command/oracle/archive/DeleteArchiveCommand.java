@@ -23,11 +23,11 @@ public class DeleteArchiveCommand extends ArchiveCommand {
 
 	private DeleteArchiveConfigData config = null;
 
-	public DeleteArchiveCommand(ArchivelogConfigData config_data) throws HException {
-		if (config_data instanceof DeleteArchiveConfigData) {
-			this.config = (DeleteArchiveConfigData) config_data;
+	public DeleteArchiveCommand(ArchivelogConfigData configData) throws HException {
+		if (configData instanceof DeleteArchiveConfigData) {
+			this.config = (DeleteArchiveConfigData) configData;
 		} else {
-			L.error(ARCHIVE_CMD_MARKER,	"No se puede crear el comando [{}] porque la configuracion es incompatible [{}]", this.getClass().getSimpleName(), config_data.getClass().getSimpleName());
+			L.error(ARCHIVE_CMD_MARKER,	"No se puede crear el comando [{}] porque la configuracion es incompatible [{}]", this.getClass().getSimpleName(), configData.getClass().getSimpleName());
 			throw new HException("Comando incompatible");
 		}
 	}
@@ -35,13 +35,13 @@ public class DeleteArchiveCommand extends ArchiveCommand {
 	@Override
 	public OsCommandResult operate() throws HException {
 
-		if (this.config.get_archive_percent_ok() == 0) {
-			String std_input = "delete noprompt archivelog all;";
+		if (this.config.getArchivePercentOk() == 0) {
+			String stdInput = "delete noprompt archivelog all;";
 
 			try {
-				OsCommandExecutor comm = new OsCommandExecutor(ARCHIVE_CMD_MARKER, "su", "-", config.get_user(), "-c", "rman target /");
-				OsCommandResult result = comm.run(std_input.getBytes());
-				L.debug(ARCHIVE_CMD_MARKER, "El resultado de la operacion es: [{}]", result.toString());
+				OsCommandExecutor comm = new OsCommandExecutor(ARCHIVE_CMD_MARKER, "su", "-", config.getUser(), "-c", "rman target /");
+				OsCommandResult result = comm.run(stdInput.getBytes());
+				L.debug(ARCHIVE_CMD_MARKER, "El resultado de la operacion es: [{}]", () -> result.toString());
 				return result;
 			} catch (IOException e) {
 				L.error(ARCHIVE_CMD_MARKER, "Ocurrio una excepcion al ejecutar el comando");
@@ -66,17 +66,17 @@ public class DeleteArchiveCommand extends ArchiveCommand {
 			
 			for (int i = 0 ; i <= untils.length ; i++) {
 
-				String until_time = " all";
+				String untilTime = " all";
 				// Notese que la �ltima iteracion i == untils.length, por lo que until_time acabar�a valiendo ""
 				if (i < untils.length) {
-					until_time = " until time \"" + untils[i] + "\"";
+					untilTime = " until time \"" + untils[i] + "\"";
 				}
 
-				String std_input = "delete noprompt archivelog " + until_time + ";";				
+				String std_input = "delete noprompt archivelog " + untilTime + ";";				
 				L.info("Se procede al borrado con el siguiente comando RMAN [{}]", std_input);
 
 				try {
-					OsCommandExecutor comm = new OsCommandExecutor(ARCHIVE_CMD_MARKER, "su", "-", config.get_user(), "-c", "rman target /");
+					OsCommandExecutor comm = new OsCommandExecutor(ARCHIVE_CMD_MARKER, "su", "-", config.getUser(), "-c", "rman target /");
 					result = comm.run(std_input.getBytes());
 					L.debug(ARCHIVE_CMD_MARKER, "El resultado de la operacion es: [{}]", result.toString());
 				} catch (IOException e) {
@@ -102,13 +102,13 @@ public class DeleteArchiveCommand extends ArchiveCommand {
 					throw new HException("La ejecucion del comando fue interrumpida", e);
 				}
 				
-				FilesystemResult new_archive_dest_result = get_fs_sensor(config.get_archive_dest());
-				L.debug("La nueva ocupacion del FS es [{}%]", new_archive_dest_result.get_used_bytes_percentage());
-				if (new_archive_dest_result.get_used_bytes_percentage() < config.get_archive_percent_ok()) {
-					L.debug("La nueva ocupacion del FS es [{}%] y est� por debajo del umbral del [{}%]", new_archive_dest_result.get_used_bytes_percentage(), new_archive_dest_result.get_used_bytes_percentage());
+				FilesystemResult newArchiveDestResult = getFsSensor(config.getArchiveDest());
+				L.debug("La nueva ocupacion del FS es [{}%]", newArchiveDestResult.get_used_bytes_percentage());
+				if (newArchiveDestResult.get_used_bytes_percentage() < config.getArchivePercentOk()) {
+					L.debug("La nueva ocupacion del FS es [{}%] y est� por debajo del umbral del [{}%]", newArchiveDestResult.get_used_bytes_percentage(), newArchiveDestResult.get_used_bytes_percentage());
 					return result;
 				} else {
-					L.info("La nueva ocupacion del FS es [{}%] y est� por encima del umbral del [{}%]", new_archive_dest_result.get_used_bytes_percentage(), new_archive_dest_result.get_used_bytes_percentage());
+					L.info("La nueva ocupacion del FS es [{}%] y est� por encima del umbral del [{}%]", newArchiveDestResult.get_used_bytes_percentage(), newArchiveDestResult.get_used_bytes_percentage());
 					L.info("Se procede al borrado con un rango de tiempo menos restrictivo");
 				}
 			}
@@ -120,20 +120,20 @@ public class DeleteArchiveCommand extends ArchiveCommand {
 	}
 	
 	
-	private FilesystemResult get_fs_sensor(String mount_point) throws HException
+	private FilesystemResult getFsSensor(String mountPoint) throws HException
 	{
 		Sampler s = null;
-		String sampler_name;
-		if (mount_point.charAt(0) == '+')
+		String samplerName;
+		if (mountPoint.charAt(0) == '+')
 		{
-			sampler_name = "asm_diskgroups";
+			samplerName = "asm_diskgroups";
 		}
 		else
 		{
-			sampler_name = "filesystems";
+			samplerName = "filesystems";
 		}
 
-		s = (Sampler) BgJobs.getJob(sampler_name);
+		s = (Sampler) BgJobs.getJob(samplerName);
 
 		if (s != null)
 		{
@@ -141,16 +141,16 @@ public class DeleteArchiveCommand extends ArchiveCommand {
 			Map<String, FilesystemResult> results = (Map<String, FilesystemResult>) s.getLastResult();
 			if (results != null)
 			{
-				FilesystemResult archive_dest_result = results.get(mount_point);
-				if (archive_dest_result != null)
+				FilesystemResult archiveDestResult = results.get(mountPoint);
+				if (archiveDestResult != null)
 				{
-					return archive_dest_result;
+					return archiveDestResult;
 				}
 				else
 				{
 					// No hay datos del FS especificado en config.get_archive_dest()
-					L.error("No hay resultados para el filesystem [{}] en el sampler [{}]", mount_point, sampler_name);
-					throw new HException("No hay resultados para el filesystem [" + mount_point + "] en el sampler [" + sampler_name + "]");
+					L.error("No hay resultados para el filesystem [{}] en el sampler [{}]", mountPoint, samplerName);
+					throw new HException("No hay resultados para el filesystem [" + mountPoint + "] en el sampler [" + samplerName + "]");
 				}
 			}
 			else
@@ -163,7 +163,7 @@ public class DeleteArchiveCommand extends ArchiveCommand {
 		else
 		{
 			// No hay sampler de FS
-			L.error("El sampler [{}] no se encuentra operativo. No se pueden obtener datos de los filesystems", sampler_name);
+			L.error("El sampler [{}] no se encuentra operativo. No se pueden obtener datos de los filesystems", samplerName);
 			throw new HException("El sampler de filesystems no se encuentra disponible");
 		}
 

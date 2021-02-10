@@ -19,42 +19,41 @@ public class TdpoArchiveCommand extends ArchiveCommand {
 
 	private TdpoArchiveConfigData config = null;
 
-	public TdpoArchiveCommand(ArchivelogConfigData config_data) throws HException {
-		if (config_data instanceof TdpoArchiveConfigData) {
-			this.config = (TdpoArchiveConfigData) config_data;
+	public TdpoArchiveCommand(ArchivelogConfigData configData) throws HException {
+		if (configData instanceof TdpoArchiveConfigData) {
+			this.config = (TdpoArchiveConfigData) configData;
 		} else {
 			L.error(ARCHIVE_CMD_MARKER,
 					"No se puede crear el comando [{}] porque la configuracion es incompatible [{}]",
-					this.getClass().getSimpleName(), config_data.getClass().getSimpleName());
+					this.getClass().getSimpleName(), configData.getClass().getSimpleName());
 			throw new HException("Comando incompatible");
 		}
 	}
 
 	@Override
 	public OsCommandResult operate() throws HException {
-		StringBuilder std_input = new StringBuilder();
+		StringBuilder stdInput = new StringBuilder();
 
-		std_input.append("run {");
-		std_input.append(" allocate channel sbt_1 type sbt_tape parms '").append(config.get_extra_env())
-				.append("ENV=(TDPO_OPTFILE=").append(config.get_tdpo_optfile()).append(")';");
-		std_input.append(" backup archivelog all;");
-		std_input.append(" release channel sbt_1;");
-		std_input.append("}");
-		std_input.append("crosscheck archivelog all;");
-		std_input.append("delete noprompt archivelog all backed up 1 times to sbt_tape;");
+		stdInput.append("run {");
+		stdInput.append(" allocate channel sbt_1 type sbt_tape parms '").append(config.getExtraEnv()).append("ENV=(TDPO_OPTFILE=").append(config.getTdpoOptfile()).append(")';");
+		stdInput.append(" backup archivelog all;");
+		stdInput.append(" release channel sbt_1;");
+		stdInput.append("}");
+		stdInput.append("crosscheck archivelog all;");
+		stdInput.append("delete noprompt archivelog all backed up 1 times to sbt_tape;");
 
 
 		try {
-			String oracleHome = config.get_oracle_home();
+			String oracleHome = config.getOracleHome();
 			String rmanBinScript = "rman target /";
 			if (oracleHome.length() > 0) {
-				rmanBinScript = "env ORACLE_HOME=" + oracleHome + " ORACLE_SID=" + config.get_db_name() + " " + oracleHome + "/bin/rman target /";
+				rmanBinScript = "env ORACLE_HOME=" + oracleHome + " ORACLE_SID=" + config.getDbName() + " " + oracleHome + "/bin/rman target /";
 			}
 
-			OsCommandExecutor comm = new OsCommandExecutor(ARCHIVE_CMD_MARKER, "su", "-", config.get_user(), "-c",
+			OsCommandExecutor comm = new OsCommandExecutor(ARCHIVE_CMD_MARKER, "su", "-", config.getUser(), "-c",
 					rmanBinScript);
-			OsCommandResult result = comm.run(std_input.toString().getBytes());
-			L.debug(ARCHIVE_CMD_MARKER, "El resultado de la operacion es: [{}]", result.toString());
+			OsCommandResult result = comm.run(stdInput.toString().getBytes());
+			L.debug(ARCHIVE_CMD_MARKER, "El resultado de la operacion es: [{}]", () -> result.toString());
 			return result;
 		} catch (IOException e) {
 			L.error(ARCHIVE_CMD_MARKER, "Ocurrio una excepcion al ejecutar el comando");

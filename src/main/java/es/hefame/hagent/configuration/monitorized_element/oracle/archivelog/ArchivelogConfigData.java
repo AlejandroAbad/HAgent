@@ -14,136 +14,136 @@ public class ArchivelogConfigData extends MonitorizedElementConfigData
 	public static final String	ALERT_CHANNEL	= "default";
 	protected String			subtype;
 
-	protected String			db_name;
-	protected String			user;
+	protected String			dbName;
+	protected String			osUser;
 
-	protected String			archive_dest;
-	protected int				archive_percent;
+	protected String			archiveDest;
+	protected int				archivePercent;
 
-	protected String			alert_channel	= ALERT_CHANNEL;
+	protected String			alertChannel	= ALERT_CHANNEL;
 
-	public ArchivelogConfigData(JSONObject json_root, String subtype) throws HException
+	public ArchivelogConfigData(JSONObject jsonRoot, String subtype) throws HException
 	{
-		if (json_root == null) throw new HException("El elemento de configuracion es nulo");
+		if (jsonRoot == null) throw new HException("El elemento de configuracion es nulo");
 		L.debug("Parseando informacion del objeto ARCHIVELOG");
 
 		this.type = "archivelog";
 		this.subtype = subtype;
 
-		String element_name;
-		Object element_obj;
+		String elementName;
+		Object elementObj;
 
 		// DB NAME (obligatorio)
-		element_name = "db_name";
-		element_obj = json_root.get(element_name);
-		if (element_obj != null)
+		elementName = "db_name";
+		elementObj = jsonRoot.get(elementName);
+		if (elementObj != null)
 		{
-			db_name = element_obj.toString();
+			dbName = elementObj.toString();
 		}
 		else
 		{
-			L.debug("No se haya el valor de '{}'. Este es obligatorio para el tipo de objeto", element_name);
-			throw new HException("No se encuentra el parametro [" + element_name + "]");
+			L.debug("No se haya el valor de '{}'. Este es obligatorio para el tipo de objeto", elementName);
+			throw new HException("No se encuentra el parametro [" + elementName + "]");
 		}
 
 		// USER (obligatorio)
-		element_name = "user";
-		element_obj = json_root.get(element_name);
-		if (element_obj != null)
+		elementName = "user";
+		elementObj = jsonRoot.get(elementName);
+		if (elementObj != null)
 		{
-			user = element_obj.toString();
+			osUser = elementObj.toString();
 		}
 		else
 		{
-			L.debug("No se haya el valor de '{}'. Este es obligatorio para el tipo de objeto", element_name);
-			throw new HException("No se encuentra el parametro [" + element_name + "]");
+			L.debug("No se haya el valor de '{}'. Este es obligatorio para el tipo de objeto", elementName);
+			throw new HException("No se encuentra el parametro [" + elementName + "]");
 		}
 
 		// ARCHIVE DEST (obligatorio)
-		element_name = "archive_dest";
-		element_obj = json_root.get(element_name);
-		if (element_obj != null)
+		elementName = "archive_dest";
+		elementObj = jsonRoot.get(elementName);
+		if (elementObj != null)
 		{
-			archive_dest = element_obj.toString();
+			archiveDest = elementObj.toString();
 		}
 		else
 		{
-			L.debug("No se haya el valor de '{}'. Este es obligatorio para el tipo de objeto", element_name);
-			throw new HException("No se encuentra el parametro [" + element_name + "]");
+			L.debug("No se haya el valor de '{}'. Este es obligatorio para el tipo de objeto", elementName);
+			throw new HException("No se encuentra el parametro [" + elementName + "]");
 		}
 
 		// ARCHIVE PERCENT (obligatorio y en el rango de 0 a 100)
-		element_name = "archive_percent";
-		element_obj = json_root.get(element_name);
-		if (element_obj != null)
+		elementName = "archive_percent";
+		elementObj = jsonRoot.get(elementName);
+		if (elementObj != null)
 		{
 			try
 			{
-				archive_percent = Integer.parseInt(element_obj.toString());
+				archivePercent = Integer.parseInt(elementObj.toString());
 
-				if (archive_percent > 100 || archive_percent < 0)
+				if (archivePercent > 100 || archivePercent < 0)
 				{
-					L.debug("El valor de '{}' es [{}]. Debe encontrarse entre 0 y 100", element_name, archive_percent);
-					throw new HException("No se encuentra el parametro [" + element_name + "]");
+					L.debug("El valor de '{}' es [{}]. Debe encontrarse entre 0 y 100", elementName, archivePercent);
+					throw new HException("No se encuentra el parametro [" + elementName + "]");
 				}
 			}
 			catch (NumberFormatException e)
 			{
 				L.catching(e);
-				L.debug("El valor de '{}' no es un entero valido. Este es obligatorio para el tipo de objeto", element_name);
-				throw new HException("El parametro [" + element_name + "] no es un entero valido");
+				L.debug("El valor de '{}' no es un entero valido. Este es obligatorio para el tipo de objeto", elementName);
+				throw new HException("El parametro [" + elementName + "] no es un entero valido");
 			}
 		}
 		else
 		{
-			L.debug("No se haya el valor de '{}'. Este es obligatorio para el tipo de objeto", element_name);
-			throw new HException("No se encuentra el parametro [" + element_name + "]");
+			L.debug("No se haya el valor de '{}'. Este es obligatorio para el tipo de objeto", elementName);
+			throw new HException("No se encuentra el parametro [" + elementName + "]");
 		}
 
 		// ALERT CHANNEL (opcional)
-		element_name = "alert_channel";
-		element_obj = json_root.get(element_name);
-		if (element_obj != null)
+		elementName = "alert_channel";
+		elementObj = jsonRoot.get(elementName);
+		if (elementObj != null)
 		{
-			alert_channel = element_obj.toString();
+			alertChannel = elementObj.toString();
 		}
 		else
 		{
-			L.debug("No se haya el valor de '{}'. Se usa el valor por defecto [{}]", element_name, ALERT_CHANNEL);
+			L.debug("No se haya el valor de '{}'. Se usa el valor por defecto [{}]", elementName, ALERT_CHANNEL);
 		}
 
-		this.name = "archivelog_" + db_name.toLowerCase();
+		this.name = "archivelog_" + dbName.toLowerCase();
 
 	}
 
-	public String get_subtype()
+	public String getSubtype()
 	{
 		return subtype;
 	}
 
-	public String get_db_name()
+	public String getDbName()
 	{
-		return db_name;
+		return dbName;
 	}
 
-	public String get_user()
+	public String getUser()
 	{
-		return user;
+		return osUser;
 	}
 
-	public String get_archive_dest()
+	public String getArchiveDest()
 	{
-		return archive_dest;
+		return archiveDest;
 	}
 
-	public int get_archive_percent()
+	public int getArchivePercent()
 	{
-		return archive_percent;
+		return archivePercent;
 	}
 
-	public String get_alert_channel()
+	public String getAlertChannel()
 	{
-		return alert_channel;
+		return alertChannel;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -153,11 +153,11 @@ public class ArchivelogConfigData extends MonitorizedElementConfigData
 		root.put("type", this.type);
 		root.put("subtype", this.subtype);
 		root.put("name", this.name);
-		root.put("db_name", this.db_name);
-		root.put("user", this.user);
-		root.put("alert_channel", this.alert_channel);
-		root.put("archive_dest", this.archive_dest);
-		root.put("archive_percent", this.archive_percent);
+		root.put("db_name", this.dbName);
+		root.put("user", this.osUser);
+		root.put("alert_channel", this.alertChannel);
+		root.put("archive_dest", this.archiveDest);
+		root.put("archive_percent", this.archivePercent);
 		return root;
 	}
 

@@ -21,7 +21,7 @@ public abstract class ArchiveCommand implements Command
 
 	public static ArchiveCommand instanciate(ArchivelogConfigData config) throws HException
 	{
-		String class_name = ArchiveCommand.class.getPackage().getName() + "." + StringConverter.upperCaseFirst(config.get_subtype()) + "ArchiveCommand";
+		String class_name = ArchiveCommand.class.getPackage().getName() + "." + StringConverter.upperCaseFirst(config.getSubtype()) + "ArchiveCommand";
 		L.debug(ARCHIVE_CMD_MARKER, "Instanciando la clase [{}]", class_name);
 		try
 		{

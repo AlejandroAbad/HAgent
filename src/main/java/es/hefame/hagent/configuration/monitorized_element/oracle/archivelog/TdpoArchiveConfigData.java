@@ -10,80 +10,81 @@ public class TdpoArchiveConfigData extends ArchivelogConfigData
 {
 	private static Logger	L	= LogManager.getLogger();
 
-	private String			tdpo_optfile;
-	private String			extra_env;
-	private String			oracle_home;
+	private String			tdpoOptfile;
+	private String			extraEnv;
+	private String			oracleHome;
 
-	public TdpoArchiveConfigData(JSONObject json_root) throws HException
+	public TdpoArchiveConfigData(JSONObject jsonRoot) throws HException
 	{
-		super(json_root, "tdpo");
+		super(jsonRoot, "tdpo");
 		L.debug("Parseando informacion ESPECIFICA del objeto TDPO");
 
-		String element_name;
-		Object element_obj;
+		String elementName;
+		Object elementObj;
 
-		element_name = "tdpo_optfile";
-		element_obj = json_root.get(element_name);
-		if (element_obj != null)
+		elementName = "tdpo_optfile";
+		elementObj = jsonRoot.get(elementName);
+		if (elementObj != null)
 		{
-			tdpo_optfile = element_obj.toString();
+			tdpoOptfile = elementObj.toString();
 		}
 		else
 		{
-			L.debug("No se haya el valor de '{}'. Este es obligatorio para el tipo de objeto", element_name);
-			throw new HException("No se encuentra el parametro [" + element_name + "]");
+			L.debug("No se haya el valor de '{}'. Este es obligatorio para el tipo de objeto", elementName);
+			throw new HException("No se encuentra el parametro [" + elementName + "]");
 		}
 
-		element_name = "extra_env";
-		element_obj = json_root.get(element_name);
-		if (element_obj != null)
+		elementName = "extra_env";
+		elementObj = jsonRoot.get(elementName);
+		if (elementObj != null)
 		{
-			extra_env = element_obj.toString();
+			extraEnv = elementObj.toString();
 		}
 		else
 		{
-			extra_env = "";
-			L.debug("No se haya el valor de '{}'. Se deja la cadena vacia", element_name);
+			extraEnv = "";
+			L.debug("No se haya el valor de '{}'. Se deja la cadena vacia", elementName);
 		}
 		
-		element_name = "oracle_home";
-		element_obj = json_root.get(element_name);
-		if (element_obj != null)
+		elementName = "oracle_home";
+		elementObj = jsonRoot.get(elementName);
+		if (elementObj != null)
 		{
-			oracle_home = element_obj.toString();
+			oracleHome = elementObj.toString();
 		}
 		else
 		{
-			oracle_home = "";
-			L.debug("No se haya el valor de '{}'. Se deja la cadena vacia", element_name);
+			oracleHome = "";
+			L.debug("No se haya el valor de '{}'. Se deja la cadena vacia", elementName);
 		}
 
-		extra_env = extra_env.trim();
-		tdpo_optfile = tdpo_optfile.trim();
-		oracle_home = oracle_home.trim();
+		extraEnv = extraEnv.trim();
+		tdpoOptfile = tdpoOptfile.trim();
+		oracleHome = oracleHome.trim();
 	}
 
-	public String get_tdpo_optfile()
+	public String getTdpoOptfile()
 	{
-		return tdpo_optfile;
+		return tdpoOptfile;
 	}
 
-	public String get_extra_env()
+	public String getExtraEnv()
 	{
-		if (extra_env != null && extra_env.length() > 0) return extra_env + ", ";
+		if (extraEnv != null && extraEnv.length() > 0) return extraEnv + ", ";
 		return "";
 	}
 	
-	public String get_oracle_home() {
-		return oracle_home;
+	public String getOracleHome() {
+		return oracleHome;
 	}
 
+	@Override
 	@SuppressWarnings("unchecked")
 	public JSONObject jsonEncode()
 	{
 		JSONObject root = super.jsonEncode();
-		root.put("tdpo_optfile", this.tdpo_optfile);
-		root.put("extra_env", this.extra_env);
+		root.put("tdpo_optfile", this.tdpoOptfile);
+		root.put("extra_env", this.extraEnv);
 		return root;
 	}
 

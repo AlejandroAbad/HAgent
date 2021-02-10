@@ -118,7 +118,7 @@ public class BgJobs
 		for (MonitorizedElementConfigData alerter : CONF.checker.get_element_of_type("archivelog"))
 		{
 			ArchivelogConfigData archive_config = (ArchivelogConfigData) alerter;
-			String db_name = archive_config.get_db_name();
+			String db_name = archive_config.getDbName();
 
 			OracleArchivelogChecker archivelog_checker = new OracleArchivelogChecker(db_name);
 			addJob(archivelog_checker.getCheckerName(), archivelog_checker);

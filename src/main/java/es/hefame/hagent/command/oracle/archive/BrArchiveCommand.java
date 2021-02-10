@@ -20,15 +20,15 @@ public class BrArchiveCommand extends ArchiveCommand
 
 	private BrArchiveConfigData	config				= null;
 
-	public BrArchiveCommand(ArchivelogConfigData config_data) throws HException
+	public BrArchiveCommand(ArchivelogConfigData configData) throws HException
 	{
-		if (config_data instanceof BrArchiveConfigData)
+		if (configData instanceof BrArchiveConfigData)
 		{
-			this.config = (BrArchiveConfigData) config_data;
+			this.config = (BrArchiveConfigData) configData;
 		}
 		else
 		{
-			L.error(ARCHIVE_CMD_MARKER, "No se puede crear el comando [{}] porque la configuracion es incompatible [{}]", this.getClass().getSimpleName(), config_data.getClass().getSimpleName());
+			L.error(ARCHIVE_CMD_MARKER, "No se puede crear el comando [{}] porque la configuracion es incompatible [{}]", this.getClass().getSimpleName(), configData.getClass().getSimpleName());
 			throw new HException("Comando incompatible");
 		}
 	}
@@ -38,10 +38,10 @@ public class BrArchiveCommand extends ArchiveCommand
 	{
 		try
 		{
-			String brcommand = "brarchive -u " + config.get_br_user() + " -c force -p " + config.get_sap_file() + " " + config.get_br_option();
-			OsCommandExecutor comm = new OsCommandExecutor(ARCHIVE_CMD_MARKER, "su", "-", config.get_user(), "-c", brcommand);
+			String brcommand = "brarchive -u " + config.getBrUser() + " -c force -p " + config.getSapFile() + " " + config.getBrOption();
+			OsCommandExecutor comm = new OsCommandExecutor(ARCHIVE_CMD_MARKER, "su", "-", config.getUser(), "-c", brcommand);
 			OsCommandResult result = comm.run();
-			L.debug(ARCHIVE_CMD_MARKER, "El resultado de la operacion es: [{}]", result.toString());
+			L.debug(ARCHIVE_CMD_MARKER, "El resultado de la operacion es: [{}]", () -> result.toString());
 			return result;
 		}
 		catch (IOException e)

@@ -10,64 +10,64 @@ public class BrArchiveConfigData extends ArchivelogConfigData
 {
 	private static Logger	L	= LogManager.getLogger();
 
-	private String			sap_file;
-	private String			br_user;
-	private String			br_option;
+	private String			sapFile;
+	private String			brUser;
+	private String			brOption;
 
-	public BrArchiveConfigData(JSONObject json_root) throws HException
+	public BrArchiveConfigData(JSONObject jsonRoot) throws HException
 	{
-		super(json_root, "br");
+		super(jsonRoot, "br");
 		L.debug("Parseando informacion ESPECIFICA del objeto BRARCHIVE");
 
-		String element_name;
-		Object element_obj;
+		String elementName;
+		Object elementObj;
 
 
-		element_name = "sap_file";
-		element_obj = json_root.get(element_name);
-		if (element_obj != null)
+		elementName = "sap_file";
+		elementObj = jsonRoot.get(elementName);
+		if (elementObj != null)
 		{
-			sap_file = element_obj.toString();
+			sapFile = elementObj.toString();
 		}
 		else
 		{
-			sap_file = "init" + this.db_name.toUpperCase() + ".sap";
-			L.debug("No se haya el valor de '{}'. Se usa el valor por defecto [{}]", element_name, sap_file);
+			sapFile = "init" + this.dbName.toUpperCase() + ".sap";
+			L.debug("No se haya el valor de '{}'. Se usa el valor por defecto [{}]", elementName, sapFile);
 		}
 
-		element_name = "br_user";
-		element_obj = json_root.get(element_name);
-		if (element_obj != null) {
-			br_user = element_obj.toString();
+		elementName = "br_user";
+		elementObj = jsonRoot.get(elementName);
+		if (elementObj != null) {
+			brUser = elementObj.toString();
 		} else {
-			br_user = "//";
-			L.debug("No se haya el valor de '{}'. Se usa el valor por defecto [{}]", element_name, br_user);
+			brUser = "//";
+			L.debug("No se haya el valor de '{}'. Se usa el valor por defecto [{}]", elementName, brUser);
 		}
 
-		element_name = "br_option";
-		element_obj = json_root.get(element_name);
-		if (element_obj != null) {
-			br_option = element_obj.toString();
+		elementName = "br_option";
+		elementObj = jsonRoot.get(elementName);
+		if (elementObj != null) {
+			brOption = elementObj.toString();
 		} else {
-			br_option = "-sd";
-			L.debug("No se haya el valor de '{}'. Se usa el valor por defecto [{}]", element_name, br_option);
+			brOption = "-sd";
+			L.debug("No se haya el valor de '{}'. Se usa el valor por defecto [{}]", elementName, brOption);
 		}
 
 	}
 
-	public String get_sap_file()
+	public String getSapFile()
 	{
-		return sap_file;
+		return sapFile;
 	}
 
-	public String get_br_user()
+	public String getBrUser()
 	{
-		return br_user;
+		return brUser;
 	}
 
-	public String get_br_option()
+	public String getBrOption()
 	{
-		return br_option;
+		return brOption;
 	}
 
 	@Override
@@ -75,9 +75,9 @@ public class BrArchiveConfigData extends ArchivelogConfigData
 	public JSONObject jsonEncode()
 	{
 		JSONObject root = super.jsonEncode();
-		root.put("sap_file", this.sap_file);
-		root.put("br_user", this.br_user);
-		root.put("br_option", this.br_option);
+		root.put("sap_file", this.sapFile);
+		root.put("br_user", this.brUser);
+		root.put("br_option", this.brOption);
 		return root;
 	}
 
