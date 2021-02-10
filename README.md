@@ -6,7 +6,7 @@ Es un script `ksh` que podremos ejecutar en sistemas *NIX.
 
 ```bash
 OS=$(uname|tr '[:upper:]' '[:lower:]')
-wget -O /tmp/hagent.install.sh \
+wget -O /tmp/hagent.install.sh  --no-check-certificate \
 	https://raw.githubusercontent.com/AlejandroAbad/hagent/main/scripts/install.$OS.sh
 	
 chmod u+x /tmp/hagent.install.sh
