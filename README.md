@@ -1148,8 +1148,8 @@ Nombre | Tipo | Defecto | Descripción
 Nombre | Tipo | Defecto | Descripción
 --- | --- | --- | ---
 **user** | `string` |  | **OBLIGATORIO**. Es el nombre del usuario de la base de datos que usaremos para conectar con las BrTools. Normalmente estableceremos este valor a `//`, aunque otros ejemplos son `SYS/pass` o `ADMIN/pwd`.
-**utl_file** | `string` | `null` | Este parámetro indica la ruta al fichero UTL que utilizaremos para llamar a las BrTools. Si no se especifica, se utiliza `$ORACLE_HOME/dbs/init<SID>.utl`.
-**sap_file** | `string` | `null` | Este parámetro indica la ruta al fichero .SAP que utilizaremos para llamar a las BrTools. Si no se especifica, se utiliza `init<SID>.sap`.
+**sap_file** | `string` | `init<SID>.sap` | Este parámetro indica la ruta al fichero .SAP que utilizaremos para llamar a las BrTools.
+**br_user** | `string` | `//` | Indica el usuario con el que la BrTools intentan conectarse a la base de datos.
 **br_option** | `string` | `-sd` | Permite incluir parámetros adicionales para la llamada a BR Archive. Ver la ayuda de BR*Archive para ver las opciones disponible.
 ```json
 {

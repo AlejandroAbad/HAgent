@@ -47,8 +47,14 @@ public class BrArchiveConfigData extends ArchivelogConfigData
 			L.debug("No se haya el valor de '{}'. Se usa el valor por defecto [{}]", element_name, sap_file);
 		}
 
-		this.br_user = user;
-		this.user = this.db_name.toLowerCase() + "adm";
+		element_name = "br_user";
+		element_obj = json_root.get(element_name);
+		if (element_obj != null) {
+			br_user = element_obj.toString();
+		} else {
+			br_user = "//";
+			L.debug("No se haya el valor de '{}'. Se usa el valor por defecto [{}]", element_name, br_user);
+		}
 
 		element_name = "br_option";
 		element_obj = json_root.get(element_name);
