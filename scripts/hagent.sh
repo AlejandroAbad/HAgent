@@ -131,13 +131,19 @@ get_pid() {
 
 
 fupdate() {
-        cd $BASE_DIR/src
-        git stash >/dev/null 2>/dev/null
+	O_CWD=$(pwd)
+	O_LIBPATH=$LIBPATH
+
+	LIBPATH=
+    cd $BASE_DIR/src
+    git stash >/dev/null 2>/dev/null
 	git stash clear >/dev/null 2>/dev/null
 	git pull
 	mvn package
 
-        chmod u+x $BASE_DIR/src/scripts/*.sh
+    chmod u+x $BASE_DIR/src/scripts/*.sh
+	cd $O_CWD
+	LIBPATH=$O_LIBPATH
 }
 
 

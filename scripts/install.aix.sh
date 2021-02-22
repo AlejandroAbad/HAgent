@@ -1,9 +1,13 @@
 #!/bin/ksh
 
+
+
+O_LIBPATH=$LIBPATH
+O_PWD=$(pwd)
+
 # Para evitar error en la ejecución de GIT
 LIBPATH=
 
-SPWD=$(pwd)
 BASE=/usr/local/hagent
 
 cd $BASE
@@ -52,4 +56,5 @@ cp  $BASE/src/log4j2.xml $BASE/log4j2.xml
 rm $BASE/apihagent.sh 2> /dev/null
 rm $BASE/apihagent.jar 2> /dev/null
 
-cd $SPWD
+LIBPATH=$O_LIBPATH
+cd $O_CWD
