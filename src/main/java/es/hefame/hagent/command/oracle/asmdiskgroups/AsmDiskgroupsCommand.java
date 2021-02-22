@@ -21,6 +21,30 @@ public class AsmDiskgroupsCommand implements Command
 {
 	private static Logger L = LogManager.getLogger();
 
+	private static final String DISKGROUP_QUERY = new StringBuilder()
+	.append("SELECT ")
+	.append("  DG.GROUP_NUMBER, ")
+	.append("  DG.NAME AS NAME, ")
+	.append("  DG.STATE AS STATE, ")
+	.append("  DG.TYPE AS TYPE, ")
+	.append("  DG.TOTAL_MB AS TOTAL_MB, ")
+	.append("  DG.REQUIRED_MIRROR_FREE_MB AS REQUIRED_MIRROR_FREE_MB, ")
+	.append("  DG.USABLE_FILE_MB AS USABLE_FILE_MB, ")
+	.append("  NVL(T.NUMDISKERR, 0) AS OFFLINE_DISKS ")
+	.append("FROM V$ASM_DISKGROUP_STAT DG ")
+	.append("LEFT JOIN ( ")
+	.append("  SELECT ")
+	.append("    GROUP_NUMBER, ")
+	.append("    COUNT(*) as NUMDISKERR ")
+	.append("  FROM V$ASM_DISK_STAT D ")
+	.append("  WHERE ")
+	.append("    D.MOUNT_STATUS != 'CACHED' AND ")
+	.append("    D.HEADER_STATUS != 'MEMBER' AND ")
+	.append("    D.MODE_STATUS != 'ONLINE' ")
+	.append("  GROUP BY GROUP_NUMBER ")
+	.append(") T ON T.GROUP_NUMBER = DG.GROUP_NUMBER ")
+	.toString();
+
 	public Map<String, AsmDiskgroupResult> operate() throws HException
 	{
 		Map<String, AsmDiskgroupResult> results = new HashMap<String, AsmDiskgroupResult>();
@@ -36,7 +60,7 @@ public class AsmDiskgroupsCommand implements Command
 		try
 		{
 			stmt = db.createStatement();
-			rs = stmt.executeQuery("SELECT NAME, STATE, TYPE, TOTAL_MB, REQUIRED_MIRROR_FREE_MB, USABLE_FILE_MB, OFFLINE_DISKS FROM V$ASM_DISKGROUP_STAT");
+			rs = stmt.executeQuery(DISKGROUP_QUERY);
 			while (rs.next())
 			{
 				String name = rs.getString("NAME");
