@@ -23,9 +23,9 @@ public final class AgentInfo
 
 	public static final long	START_TIME	= System.currentTimeMillis();
 
-	private static String		VERSION		= "1.20.28";
-	private static String		BUILD		= "2";
-	private static String		BUILT_DATE	= "20210209111111";
+	private static String		VERSION		= "1.20.29";
+	private static String		BUILD		= "1";
+	private static String		BUILT_DATE	= "20210222161616";
 
 	/*
 	static
