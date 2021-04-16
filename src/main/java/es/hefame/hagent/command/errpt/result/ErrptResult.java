@@ -87,6 +87,7 @@ public class ErrptResult
 
 	public class ErrptListItem
 	{
+		public final String 	original;
 		public final String		id;
 		public final Date		time;
 		public final ErrptType	type;
@@ -96,11 +97,12 @@ public class ErrptResult
 
 		public ErrptListItem(String line) throws CommandException
 		{
+			this.original = line;
 			String[] tokens = line.split("\\s+");
 			if (tokens.length < 6)
 			{
 				// La linea no cuadra
-				throw new CommandException("La l�nea de errpt no tiene el numero de tokens adecuado");
+				throw new CommandException("La línea de errpt no tiene el numero de tokens adecuado");
 			}
 
 			id = tokens[0];

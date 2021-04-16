@@ -45,12 +45,12 @@ public class ErrptChecker extends Checker
 				sb.append(new HtmlStyler());
 				sb.append(new HtmlHeader("Errores de ERRPT en el host " + hostname, 1, "error"));
 				HtmlTable errorTable = new HtmlTable();
-				errorTable.add_header("Hora", "ID", "Recurso", "Descripci&oacute;n");
+				errorTable.add_header("Descripci&oacute;n");
 				Iterator<ErrptListItem> it = errors.iterator();
 				while (it.hasNext())
 				{
 					ErrptListItem errpt = it.next();
-					errorTable.add_row(errpt.time, errpt.id, errpt.resource, errpt.description);
+					errorTable.add_row(errpt.original);
 				}
 				sb.append(errorTable);
 				sb.append(this.getAlertLinks());

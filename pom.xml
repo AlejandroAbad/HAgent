@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>es.hefame.hagent</groupId>
   <artifactId>hagent</artifactId>
-  <version>1.20.29</version>
+  <version>1.20.30</version>
   <properties>
     <java.version>1.8</java.version>
     <maven.compiler.source>1.8</maven.compiler.source>
