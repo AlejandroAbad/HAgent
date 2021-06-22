@@ -12,8 +12,14 @@ wget -O /tmp/hagent.install.sh  --no-check-certificate \
 chmod u+x /tmp/hagent.install.sh
 /tmp/hagent.install.sh
 
-# Una vex instalado
+# Una vez instalado
 rm /tmp/hagent.install.sh
+
+# En AIX, si hemos actualizado el hagente desde la versión pre-maven, habrá que cambiar
+# en el /etc/inittab para que apunte al nuevo ejecutable
+# ANTES:   /usr/local/hagent/apihagent.sh
+# DESPUES: /usr/local/hagent/hagent.sh
+
 
 ```
 
