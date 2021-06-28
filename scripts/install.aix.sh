@@ -56,5 +56,10 @@ cp  $BASE/src/log4j2.xml $BASE/log4j2.xml
 rm $BASE/apihagent.sh 2> /dev/null
 rm $BASE/apihagent.jar 2> /dev/null
 
+echo "********************************************************************"
+echo "Modifica el /etc/inittab para que apunte al nuevo script de arranque"
+echo "                  /usr/local/hagent/hagent.sh"
+echo "********************************************************************"
+
 LIBPATH=$O_LIBPATH
 cd $O_CWD
