@@ -40,7 +40,7 @@ start() {
         fi
 
         echo "Arrancamos el HAgent ..."
-        nohup $JAVA_BIN -XX:OnOutOfMemoryError="$BASE_DIR/apihagent.sh restart" -Xmx64m -Dlog4j.configurationFile=$LOG4J_CONFIG -Dhagent.configurationFile=$CONFIG_FILE -jar $JAR_FILE > $LOG_DIR/critical.log 2> $LOG_DIR/critical.log &
+        nohup $JAVA_BIN -XX:OnOutOfMemoryError="$BASE_DIR/hagent.sh restart" -Xmx64m -Dlog4j.configurationFile=$LOG4J_CONFIG -Dhagent.configurationFile=$CONFIG_FILE -jar $JAR_FILE > $LOG_DIR/critical.log 2> $LOG_DIR/critical.log &
         sleep 6
 
 
