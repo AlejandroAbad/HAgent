@@ -174,7 +174,7 @@ case "$1" in
 				RETVAL=0
 				;;
         *)
-                echo $"Usage: $0 {start|stop|restart|status|update}"
+                echo "Usage: $0 {start|stop|restart|status|update}"
                 RETVAL=2
 esac
 
