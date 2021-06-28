@@ -136,8 +136,8 @@ fupdate() {
 
 	LIBPATH=
     cd $BASE_DIR/src
-	git config --global user.email "hagent@$(hostname).hefame.es"
-	git config --global user.name "$(hostname)"
+	git config --global user.email --replace-all "hagent@$(hostname).hefame.es"
+	git config --global user.name --replace-all "$(hostname)"
 
     git stash >/dev/null 2>/dev/null
 	git stash clear >/dev/null 2>/dev/null
