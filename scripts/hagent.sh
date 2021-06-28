@@ -12,7 +12,7 @@
 ### END INIT INFO
 
 
-
+VERSION=1.20.31
 
 if [ $(uname) == "AIX" ] 
 then
@@ -31,29 +31,29 @@ JAR_FILE=$BASE_DIR/hagent.jar
 
 start() {
 
-        echo "Iniciando el HAgente ..."
+        echo "Iniciando el HAgent v$VERSION ..."
 
         if [ $(is_running) -ne 0 ]
         then
-                echo "El HAgente ya esta ejecutandose con el PID $(get_pid)"
+                echo "El HAgent ya esta ejecutandose con el PID $(get_pid)"
                 return 0
         fi
 
-        echo "Arrancamos el HAgente ..."
+        echo "Arrancamos el HAgent ..."
         nohup $JAVA_BIN -XX:OnOutOfMemoryError="$BASE_DIR/apihagent.sh restart" -Xmx64m -Dlog4j.configurationFile=$LOG4J_CONFIG -Dhagent.configurationFile=$CONFIG_FILE -jar $JAR_FILE > $LOG_DIR/critical.log 2> $LOG_DIR/critical.log &
         sleep 6
 
 
         if [ $(is_running) -eq 0 ]
         then
-                echo "No he podido arrancar el HAgente"
+                echo "No he podido arrancar el HAgent"
                 echo "------------------------------------------------------------------------------------------"
                 cat $LOG_DIR/critical.log
                 echo "------------------------------------------------------------------------------------------"
                 echo "Revisa los logs en $LOG_DIR"
                 return 1
         else
-                echo "HAgente arrancado"
+                echo "HAgent arrancado"
                 return 0
         fi
 }
@@ -61,15 +61,15 @@ start() {
 
 fstop() {
 
-        echo "Parando el HAgente ..."
+        echo "Parando el HAgent ..."
 
         if [ $(is_running) -eq 0 ]
         then
-                echo "El HAgente ya estaba parado"
+                echo "El HAgent ya estaba parado"
                 return 0
         fi
 
-        echo "Mandando SIGINT al HAgente ..."
+        echo "Mandando SIGINT al HAgent ..."
         kill $(get_pid)
         sleep 6
 
@@ -80,7 +80,7 @@ fstop() {
 
                 if [[ $IDX -lt 3 ]]
                 then
-                        echo "El HAgente sigue en ejecucion, le lanzamos otro SIGINT"
+                        echo "El HAgent sigue en ejecucion, le lanzamos otro SIGINT"
                         kill $(get_pid)
                 else
                         echo "Ya me he cansado de esperar... le lanzamos un SIGQUIT"
@@ -94,11 +94,11 @@ fstop() {
 
         if [ $(is_running) -ne 0 ]
         then
-                echo "No he podido parar el HAgente"
+                echo "No he podido parar el HAgent"
                 echo "Revisa los logs en $LOG_DIR"
                 return 1
         else
-                echo "HAgente detenido"
+                echo "HAgent detenido"
                 return 0
         fi
 }
@@ -107,9 +107,9 @@ fstop() {
 status() {
         if [ $(is_running) -eq 0 ]
         then
-                echo "El HAgente esta detenido"
+                echo "El HAgent esta detenido"
         else
-                echo "El HAgente esta ejecutandose con PID $(get_pid)"
+                echo "El HAgent esta ejecutandose con PID $(get_pid)"
         fi
         return 0
 }
@@ -169,6 +169,10 @@ case "$1" in
                 fupdate
                 RETVAL=$?
                 ;;
+		version)
+				echo "Hefame Agent v$VERSION"
+				RETVAL=0
+				;;
         *)
                 echo $"Usage: $0 {start|stop|restart|status|update}"
                 RETVAL=2
