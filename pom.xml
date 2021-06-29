@@ -15,7 +15,7 @@
     <dependency>
       <groupId>com.github.AlejandroAbad</groupId>
       <artifactId>hcore</artifactId>
-      <version>v2.7.1</version>
+      <version>v2.7.2</version>
     </dependency>
 
     <dependency>
