@@ -31,6 +31,10 @@ public class PrtgProcessorHandler extends HttpController
 			{
 				t.response.send(result, 200);
 				return;
+			} else {
+				result = new ProcessorResult(){};
+				t.response.send(result, 200);
+				return;
 			}
 		}
 
