@@ -10,6 +10,10 @@ public abstract class ProcessorResult extends PrtgSensor
 	// Carga de CPU
 	protected double load_percentage = 0;
 
+	public ProcessorResult() {
+		this.channelize();
+	}
+
 	public double get_load_percentage()
 	{
 		return load_percentage;
