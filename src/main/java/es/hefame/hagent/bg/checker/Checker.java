@@ -44,12 +44,11 @@ public abstract class Checker extends RecurringOperation {
 			exceptionThrowed = false;
 
 			try {
+				L.info("Inicio Operacion Checker [{}]", name);
 				this.operate();
-				if (Thread.interrupted()) {
-					continue; // TODO: Si se ha interrumpido la operacion, debemos abortar
-				}
+				L.info("Fin Operacion Checker [{}]", name);
 				this.commitSuccess();
-			} catch (HException e) {
+			} catch (Exception e) {
 				L.error("El Checker [{}] lanzo una excepcion", name);
 				L.catching(e);
 				exceptionThrowed = true;
@@ -64,12 +63,18 @@ public abstract class Checker extends RecurringOperation {
 
 			if (sleep_time > 0) {
 				try {
-					L.debug("Esperando [{}] milisegundos", sleep_time);
+					L.info("El chequer se va a dormir [{} ms] [{}]", sleep_time, name);
 					Thread.sleep(sleep_time);
 				} catch (InterruptedException e) {
+					L.info("El checker ha sido interrumpido mientras dormía [{}]", name);
+					L.catching(e);
 				}
 			}
 
+		}
+
+		if (Thread.interrupted()) {
+			L.info("El checker ha sido interrumpido [{}]", name);
 		}
 
 		this.setStopped();
