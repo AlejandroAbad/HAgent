@@ -36,42 +36,15 @@
 		<Root level="info">
 			<AppenderRef ref="FileLogging" />
 		</Root>
-		<Logger name="jhefame.core" level="warn" additivity="false">
-			<AppenderRef ref="FileLogging" />
-		</Logger>
-		<Logger name="jhefame.http" level="warn" additivity="false">
-			<AppenderRef ref="FileLogging" />
-		</Logger>
-		<Logger name="jhefame.oracle" level="warn" additivity="false">
-			<AppenderRef ref="FileLogging" />
-		</Logger>
-		<Logger name="jhefame.prtg" level="warn" additivity="false">
+		<Logger name="es.hefame.hcore" level="warn" additivity="false">
 			<AppenderRef ref="FileLogging" />
 		</Logger>
 
-
-		<Logger name="jhefame.hagent.run" level="info" additivity="false">
-			<AppenderRef ref="FileLogging" />
-		</Logger>
-		<Logger name="jhefame.hagent.configuration" level="info" additivity="false">
-			<AppenderRef ref="FileLogging" />
-		</Logger>
-		<Logger name="jhefame.hagent.controller" level="info" additivity="false">
-			<AppenderRef ref="FileLogging" />
-		</Logger>
-		<Logger name="jhefame.hagent.bg" level="info" additivity="false">
+		<Logger name="es.hefame.hagent" level="info" additivity="false">
 			<AppenderRef ref="FileLogging" />
 		</Logger>
 
-		<Logger name="jhefame.hagent.util" level="debug" additivity="false">
-			<AppenderRef ref="FileLogging" />
-			<Filters>
-				<MarkerFilter marker="MAILER" onMatch="DENY" onMismatch="NEUTRAL" />
-				<MarkerFilter marker="AGENT_INFO" onMatch="DENY" onMismatch="NEUTRAL" />
-			</Filters>
-		</Logger>
-
-		<Logger name="jhefame.hagent.command" level="debug" additivity="false">
+		<Logger name="es.hefame.hagent.command" level="debug" additivity="false">
 			<AppenderRef ref="FileLogging" />
 			<Filters>
 				<MarkerFilter marker="OSLEVEL_CMD" onMatch="DENY" onMismatch="NEUTRAL" />
